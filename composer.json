@@ -1,0 +1,13 @@
+{
+    "name": "mcres/help-docs",
+    "description": "MCRES 帮助文档",
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "league/commonmark": "^2.4"
+    },
+    "autoload": {
+        "psr-4": { "App\\": "lib/" }
+    },
+    "config": { "optimize-autoloader": true }
+}

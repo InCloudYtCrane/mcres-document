@@ -1,0 +1,623 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #333;
+  line-height: 1.7;
+  background: #fff;
+}
+
+/* ---------- 三栏 Grid 布局 ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 240px;
+  min-height: 100vh;
+  align-items: start;
+}
+
+/* ---------- 移动端元素默认隐藏 ---------- */
+.mobile-bar,
+.mobile-close,
+.toc-toggle {
+  display: none;
+}
+
+/* ============================================================
+   桌面端：右侧 TOC 常驻显示（默认样式，不受手机端影响）
+   ============================================================ */
+.toc-sidebar {
+  padding: 40px 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  font-size: 13px;
+  border-left: 1px solid #e5e6eb;
+  background: #fafbfc;
+}
+
+.toc-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #86909c;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+
+.toc-title i { font-size: 11px; }
+
+.toc-content {
+  display: block;
+}
+
+.toc ul { list-style: none; padding: 0; margin: 0; }
+.toc ul ul { padding-left: 14px; }
+.toc li { margin: 2px 0; }
+
+.toc a {
+  display: block;
+  padding: 4px 8px;
+  color: #86909c;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease,
+              border-color 0.15s ease;
+  line-height: 1.5;
+}
+
+.toc a:hover { color: #1e80ff; background: #f7f8fa; }
+
+.toc a.active {
+  color: #1e80ff;
+  background: #e8f3ff;
+  border-left-color: #1e80ff;
+  font-weight: 500;
+}
+
+/* ---------- 左侧导航 ---------- */
+.sidebar {
+  background: #f7f8fa;
+  border-right: 1px solid #e5e6eb;
+  padding: 20px 12px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  margin: 0;
+  padding-left: 10px;
+  color: #1e80ff;
+}
+
+.logo span {
+  color: #1d2129;
+  font-weight: 600;
+}
+
+/* ---------- 搜索框 ---------- */
+.search-box {
+  position: relative;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #86909c;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+#search-input {
+  width: 100%;
+  padding: 8px 10px 8px 30px;
+  border: 1px solid #e5e6eb;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+  color: #1d2129;
+}
+
+#search-input:focus {
+  border-color: #1e80ff;
+  box-shadow: 0 0 0 3px rgba(30, 128, 255, 0.1);
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e6eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+}
+
+.search-results.show { display: block; }
+
+.search-item {
+  display: block;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #f2f3f5;
+  transition: background 0.1s ease;
+}
+
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: #f7f8fa; }
+
+.search-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d2129;
+  margin-bottom: 2px;
+}
+
+.search-item-snippet {
+  font-size: 12px;
+  color: #86909c;
+  line-height: 1.5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.search-item mark {
+  background: #fff7d1;
+  color: #1d2129;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.search-empty {
+  padding: 20px;
+  text-align: center;
+  color: #86909c;
+  font-size: 13px;
+}
+
+/* ---------- 导航 ---------- */
+.nav-wrapper {
+  flex: 1;
+  min-height: 0;
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  color: #4e5969;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav a:hover { background: #e8f3ff; color: #1e80ff; }
+.nav a.active { background: #e8f3ff; color: #1e80ff; font-weight: 600; }
+
+.nav-item-icon {
+  width: 16px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #86909c;
+  transition: color 0.15s ease;
+}
+
+.nav a:hover .nav-item-icon,
+.nav a.active .nav-item-icon {
+  color: #1e80ff;
+}
+
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #1d2129;
+  font-size: 14px;
+  line-height: 1.4;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.nav-group-header:hover { background: #eef0f3; }
+
+.nav-group-icon {
+  width: 16px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 13px;
+  color: #f7ba1e;
+  transition: color 0.15s ease;
+}
+
+.nav-group-header:hover .nav-group-icon { color: #f53f3f; }
+
+.nav-group-link {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav-group-link:hover { color: #1e80ff; }
+.nav-group-link.active { color: #1e80ff; font-weight: 600; }
+
+.nav-group-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-arrow {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #86909c;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.15s ease;
+}
+
+.nav-group-header:hover .nav-arrow { color: #4e5969; }
+
+.nav-group-item:not(.collapsed) > .nav-group-header .nav-arrow {
+  transform: rotate(90deg);
+}
+
+.nav-children {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-group-item.collapsed > .nav-children {
+  grid-template-rows: 0fr;
+}
+
+.nav-children > .nav {
+  overflow: hidden;
+  padding-left: 14px;
+  min-height: 0;
+}
+
+/* ---------- 正文 ---------- */
+.content {
+  padding: 40px 56px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.content h1 { font-size: 28px; margin-top: 0; }
+
+.content h2 {
+  font-size: 22px;
+  margin-top: 32px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+.content h3 { font-size: 18px; margin-top: 24px; }
+
+.content pre {
+  background: #f6f8fa;
+  padding: 16px;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.content code {
+  background: #f6f8fa;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 14px;
+}
+
+.content pre code { background: none; padding: 0; }
+
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+}
+
+.content th,
+.content td {
+  border: 1px solid #e5e6eb;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.content th { background: #f7f8fa; }
+.content img { max-width: 100%; border-radius: 6px; }
+
+.content blockquote {
+  margin: 16px 0;
+  padding: 8px 16px;
+  border-left: 4px solid #1e80ff;
+  background: #f7f8fa;
+  color: #4e5969;
+}
+
+/* ---------- 响应式：中屏 ---------- */
+@media (max-width: 1200px) {
+  .layout { grid-template-columns: 240px minmax(0, 1fr) 200px; }
+  .content { padding: 32px 32px; }
+}
+
+/* ============================================================
+   手机端（≤960px）：TOC 折叠置顶，菜单变全屏页
+   ============================================================ */
+@media (max-width: 960px) {
+
+  /* --- 布局：单栏纵向 --- */
+  .layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 52px;
+  }
+
+  /* --- 顶部栏 --- */
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    padding: 0 12px;
+    background: #fff;
+    border-bottom: 1px solid #e5e6eb;
+    z-index: 90;
+  }
+
+  .mobile-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: transparent;
+    border: 1px solid #e5e6eb;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #4e5969;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+
+  .mobile-btn:active { background: #f2f3f5; }
+
+  .mobile-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2129;
+    margin-left: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* --- 侧边栏 = 全屏菜单页 --- */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 200;
+    border-right: none;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 20px 16px;
+    padding-top: calc(20px + env(safe-area-inset-top, 0px));
+  }
+
+  body.menu-open .sidebar { transform: translateX(0); }
+  body.menu-open { overflow: hidden; }
+
+  .mobile-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    color: #4e5969;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .mobile-close:active { background: #eef0f3; }
+
+  /* --- TOC：折叠式置顶 --- */
+  .toc-sidebar {
+    order: 1;
+    position: static;
+    height: auto;
+    width: 100%;
+    padding: 0;
+    border-left: none;
+    border-bottom: 1px solid #e5e6eb;
+    background: #fafbfc;
+    font-size: 13px;
+    overflow: visible;
+  }
+
+  /* 桌面端的 toc-title 在手机端隐藏 */
+  .toc-sidebar .toc-title {
+    display: none;
+  }
+
+  /* 手机端的折叠按钮 */
+  .toc-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4e5969;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+  }
+
+  .toc-toggle:active { background: #eef0f3; }
+
+  .toc-toggle i:first-child {
+    color: #1e80ff;
+    font-size: 13px;
+  }
+
+  .toc-arrow {
+    margin-left: auto;
+    font-size: 11px;
+    color: #86909c;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 展开状态：箭头翻转 */
+  .toc-sidebar.open .toc-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* 手机端：TOC 内容默认收起，展开时滑下 */
+  .toc-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toc-sidebar.open .toc-content {
+    grid-template-rows: 1fr;
+  }
+
+  .toc-content > .toc {
+    overflow: hidden;
+    min-height: 0;
+    padding: 0 16px;
+  }
+
+  .toc-sidebar.open .toc-content > .toc {
+    padding-bottom: 16px;
+  }
+
+  /* --- 正文 --- */
+  .content {
+    order: 2;
+    padding: 20px 16px 40px;
+    max-width: 100%;
+  }
+
+  .content h1 { font-size: 22px; }
+  .content h2 { font-size: 18px; }
+  .content h3 { font-size: 16px; }
+}
+
+/* ============================================================
+   新增 Markdown 语法样式（任务列表 / 脚注 / 定义列表）
+   ============================================================ */
+.content ul.contains-task-list {
+  list-style: none;
+  padding-left: 8px;
+}
+
+.content li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.content li.task-list-item input[type="checkbox"] {
+  margin-top: 6px;
+  pointer-events: none;
+}
+
+.content .footnotes {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e6eb;
+  font-size: 14px;
+  color: #4e5969;
+}
+
+.content .footnotes ol { padding-left: 20px; }
+
+.content sup.footnote-ref a {
+  text-decoration: none;
+  color: #1e80ff;
+  padding: 0 2px;
+}
+
+.content dl { margin: 16px 0; }
+.content dl dt { font-weight: 600; margin-top: 12px; color: #1d2129; }
+.content dl dd { margin-left: 24px; color: #4e5969; }
